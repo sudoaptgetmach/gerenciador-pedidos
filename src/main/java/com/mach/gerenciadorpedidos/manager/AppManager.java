@@ -1,7 +1,8 @@
 package com.mach.gerenciadorpedidos.manager;
 
+import com.mach.gerenciadorpedidos.repository.OrderRepository;
 import com.mach.gerenciadorpedidos.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mach.gerenciadorpedidos.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -10,19 +11,23 @@ import java.util.Scanner;
 public class AppManager {
 
     Scanner scanner = new Scanner(System.in);
-    private final ProductManager manager;
+    private final ProductManager productManager;
+    private final UserManager userManager;
+    private final OrderManager orderManager;
 
-    public AppManager(ProductRepository repository) {
-        this.manager = new ProductManager(repository);
+    public AppManager(ProductRepository repository, UserRepository userRepository, OrderRepository orderRepository) {
+        this.productManager = new ProductManager(repository);
+        this.userManager = new UserManager(userRepository);
+        this.orderManager = new OrderManager(orderRepository, userRepository, repository);
     }
 
     public void menu() {
         while (true) {
             var msg = """
-                  1 - Cadastrar produto
-                  2 - Procurar produtos
+                  1 - Gerenciar produtos
+                  2 - Gerenciar usuários
+                  3 - Gerenciar pedidos
                   
-                  9 - Listar produtos
                   0 - Sair
                   """;
 
@@ -31,13 +36,13 @@ public class AppManager {
 
             switch (input) {
                 case 1:
-                    manager.createProduct();
+                    productManager.menu();
                     break;
                 case 2:
-                    manager.findProduct();
+                    userManager.menu();
                     break;
-                case 9:
-                    manager.listProducts();
+                case 3:
+                    orderManager.menu();
                     break;
                 case 0:
                     return;

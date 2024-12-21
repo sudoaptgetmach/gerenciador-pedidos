@@ -20,6 +20,38 @@ public class ProductManager {
         this.repository = repository;
     }
 
+    public void menu() {
+        while (true) {
+            var msg = """
+                  1 - Cadastrar produto
+                  2 - Procurar produtos
+                  
+                  9 - Listar produtos
+                  0 - Sair
+                  """;
+
+            System.out.println(msg);
+            var input = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (input) {
+                case 1:
+                    createProduct();
+                    break;
+                case 2:
+                    findProduct();
+                    break;
+                case 9:
+                    listProducts();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }
+    }
+
     public void createProduct() {
 
         System.out.println("Digite o nome do produto desejado:");
