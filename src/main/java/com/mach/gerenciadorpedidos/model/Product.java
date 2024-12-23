@@ -12,21 +12,22 @@ public class Product {
     @Column(unique = true, nullable = false)
     private String nome;
 
-    @Column(name = "categoria")
+    @Column(name = "categoria", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Categories categories;
+    private Categories category;
 
-    @Column(name = "valor")
+    @Column(name = "valor", nullable = false)
     private Double preco;
 
+    @Column(length = 500)
     private String descricao;
 
     public Product() {
     }
 
-    public Product(String nome, Categories categories, Double preco, String descricao) {
+    public Product(String nome, Categories category, Double preco, String descricao) {
         this.nome = nome;
-        this.categories = categories;
+        this.category = category;
         this.preco = preco;
         this.descricao = descricao;
     }
@@ -39,19 +40,40 @@ public class Product {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
+    }
+
     public Double getPreco() {
         return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public String toString() {
         return "\nID: " + getId() +
-               "\nNome: " + getNome() +
-               "\nDescrição: " + getDescricao() +
-               "\nPreço: " + getPreco();
+                "\nNome: " + getNome() +
+                "\nCategoria: " + getCategory() +
+                "\nDescrição: " + getDescricao() +
+                "\nPreço: " + getPreco();
     }
 }

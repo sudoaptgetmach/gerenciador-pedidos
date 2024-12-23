@@ -14,18 +14,19 @@ public class Order {
 
     LocalDate date;
 
-    @ManyToOne
-    private User comprador;
-
     String endereco;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "\"user_pedido\"",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "pedido_id")
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> productList;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User comprador;
 
     public Order(LocalDate date, User comprador, String endereco, List<Product> productList) {
         this.date = date;

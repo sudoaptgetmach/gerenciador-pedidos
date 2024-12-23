@@ -17,14 +17,11 @@ public class OrderManager {
 
     Scanner scanner = new Scanner(System.in);
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public OrderManager(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
@@ -47,17 +44,11 @@ public class OrderManager {
             scanner.nextLine();
 
             switch (input) {
-                case 1:
-                    createOrder();
-                    break;
-                case 2:
-                    return;
-                case 9:
-                    fetchAllOrders();
-                    return;
-                default:
-                    System.out.println("Digite uma opção válida.");
-                    break;
+                case 1 -> createOrder();
+                case 2 -> System.out.println("Nothing here. :)");
+                case 9 -> fetchAllOrders();
+                default -> System.out.println("Digite uma opção válida.");
+
             }
         }
     }
@@ -93,12 +84,20 @@ public class OrderManager {
                 System.out.println("Produto não encontrado.");
             } else {
                 Product produto = productOpt.get();
-                productList.add(produto);
+                if (!productList.contains(produto)) {
+                    productList.add(produto);
+                } else {
+                    System.out.println("Produto já adicionado.");
+                }
             }
         }
 
         Order order = new Order(date, comprador, endereco, productList);
         orderRepository.save(order);
+
+        comprador.getPedidosList().add(order);
+        userRepository.save(comprador);
+
         System.out.println("Pedido criado com sucesso.");
     }
 

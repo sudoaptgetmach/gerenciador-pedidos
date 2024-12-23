@@ -7,10 +7,7 @@ public enum Categories {
     ESPORTES("Esportes e Lazer"),
     CASA("Casa e Cozinha");
 
-    private final String nome;
-
     Categories(String nome) {
-        this.nome = nome;
     }
 
 }
